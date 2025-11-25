@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phoenix Community Job Hub</title>
+    <style>
+        /* --- CSS STYLES (Unchanged) --- */
+        :root {
+            --primary: #2c3e50;
+            --accent: #27ae60;
+            --bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --text: #333;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: var(--primary);
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        h1 { margin: 0; font-size: 2rem; }
+        p.subtitle { opacity: 0.9; margin-top: 5px; }
+        .search-container { max-width: 600px; margin: 0 auto 30px auto; }
+        input#search {
+            width: 100%; padding: 15px; font-size: 16px;
+            border: 2px solid #ddd; border-radius: 8px; box-sizing: border-box;
+        }
+        .job-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .card {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+            border-left: 5px solid var(--accent);
+        }
+        .card:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .company-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .company-name { font-weight: bold; font-size: 1.2rem; color: var(--primary); }
+        .sector-tag { 
+            background: #e9ecef; padding: 4px 8px; border-radius: 4px; 
+            font-size: 0.8rem; text-transform: uppercase; font-weight: bold;
+        }
+        .detail-row { margin-bottom: 10px; font-size: 0.95rem; }
+        .label { font-weight: 600; color: #666; }
+        .commute-badge {
+            display: inline-block; background-color: #e8f5e9; color: #1b5e20;
+            padding: 5px 10px; border-radius: 15px; font-weight: bold;
+            font-size: 0.85rem; margin-top: 5px;
+        }
+        .student-path {
+            margin-top: 15px; padding-top: 15px; border-top: 1px dashed #ddd;
+            font-size: 0.9rem;
+        }
+        .student-path span { color: #d35400; font-weight: bold; }
+        
+        /* Loading State */
+        #loading { text-align: center; font-size: 1.2rem; color: #666; margin-top: 50px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Phoenix Community Job Hub</h1>
+        <p class="subtitle">Live Market Intelligence (Powered by Firestore)</p>
+    </header>
+
+    <div class="search-container">
+        <input type="text" id="search" placeholder="Search by company, role, or sector..." onkeyup="filterJobs()">
+    </div>
+
+    <div id="loading">Loading live data from Phoenix database...</div>
+    <div id="job-container" class="job-grid"></div>
+
+    <script type="module">
+        // 1. Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+        import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+
+        // 2. YOUR WEB APP CONFIGURATION
+        // TODO: PASTE YOUR CONFIG HERE (Get this from Firebase Console > Project Settings)
+        const firebaseConfig = {
+            apiKey: "AIzaSyD... (YOUR KEY HERE)",
+            authDomain: "your-project-id.firebaseapp.com",
+            projectId: "your-project-id",
+            storageBucket: "your-project-id.appspot.com",
+            messagingSenderId: "123456...",
+            appId: "1:123456..."
+        };
+
+        // 3. Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Global variable to store data for filtering
+        let allJobs = [];
+
+        // 4. Fetch Data Function
+        async function fetchJobs() {
+            const querySnapshot = await getDocs(collection(db, "employers"));
+            
+            allJobs = []; // Reset list
+            querySnapshot.forEach((doc) => {
+                // Combine Doc ID with data
+                allJobs.push({ id: doc.id, ...doc.data() });
+            });
+
+            document.getElementById('loading').style.display = 'none';
+            renderJobs(allJobs);
+        }
+
+        // 5. Render Function
+        window.renderJobs = function(data) {
+            const container = document.getElementById('job-container');
+            container.innerHTML = ""; 
+            
+            data.forEach(job => {
+                // Handle array of roles (from Go) vs single string
+                const rolesDisplay = Array.isArray(job.target_roles) ? job.target_roles.join(", ") : job.target_roles;
+
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <div class="company-header">
+                        <span class="company-name">${job.name}</span>
+                        <span class="sector-tag">${job.sector}</span>
+                    </div>
+                    <div class="detail-row"><span class="label">Location:</span> ${job.location_hub}</div>
+                    <div class="detail-row"><span class="label">Roles:</span> ${rolesDisplay}</div>
+                    <div class="commute-badge">🚗 Commute: ${job.commute_score}</div>
+                    
+                    <div class="student-path">
+                        <span>🎓 Student/Entry Path:</span><br>
+                        ${job.entry_path}
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // 6. Filter Function (Exposed to Window)
+        window.filterJobs = function() {
+            const input = document.getElementById('search').value.toLowerCase();
+            const filtered = allJobs.filter(job => {
+                // Safety check in case fields are missing in DB
+                const name = (job.name || "").toLowerCase();
+                const roles = (Array.isArray(job.target_roles) ? job.target_roles.join(" ") : (job.target_roles || "")).toLowerCase();
+                const sector = (job.sector || "").toLowerCase();
+
+                return name.includes(input) || roles.includes(input) || sector.includes(input);
+            });
+            renderJobs(filtered);
+        }
+
+        // Start the fetch!
+        fetchJobs();
+    </script>
+</body>
+</html>
