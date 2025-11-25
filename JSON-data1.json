@@ -1,0 +1,154 @@
+{
+  "meta": {
+    "project": "Phoenix Market Intelligence",
+    "user_location_target": "Downtown Phoenix (Zip 85004)",
+    "description": "Strategic job targets in Data Center & Manufacturing sectors with commute analysis from Downtown.",
+    "generated_date": "2025-11-25"
+  },
+  "sectors": [
+    {
+      "name": "Data Centers (Connectivity Hubs)",
+      "strategy_note": "These locations are critical infrastructure. The Downtown node (120 E Van Buren) is the most strategic target for a walkable commute.",
+      "companies": [
+        {
+          "name": "Digital Realty (PHX10)",
+          "address": "120 East Van Buren Street, Phoenix, AZ 85004",
+          "role_types": ["Network Engineer", "Facility Operations", "Security Specialist"],
+          "commute_analysis": {
+            "distance_miles": 0.2,
+            "drive_time_min": 2,
+            "walk_time_min": 5,
+            "commute_score": "10/10 (Walkable)",
+            "transit_access": "Excellent (Light Rail / Bus)"
+          }
+        },
+        {
+          "name": "NFINIT",
+          "address": "120 East Van Buren Street, Phoenix, AZ 85004",
+          "role_types": ["Systems Admin", "Cloud Support", "NOC Technician"],
+          "commute_analysis": {
+            "distance_miles": 0.2,
+            "drive_time_min": 2,
+            "walk_time_min": 5,
+            "commute_score": "10/10 (Walkable)",
+            "transit_access": "Excellent (Light Rail / Bus)"
+          }
+        },
+        {
+          "name": "PhoenixNAP",
+          "address": "3402 E University Dr, Phoenix, AZ 85034",
+          "role_types": ["Data Center Ops", "Hardware Technician", "Sales Engineer"],
+          "commute_analysis": {
+            "distance_miles": 5.5,
+            "drive_time_min": 12,
+            "walk_time_min": null,
+            "commute_score": "9/10 (Short Drive)",
+            "transit_access": "Fair (Bus Route 30)"
+          }
+        },
+        {
+          "name": "Iron Mountain Data Centers",
+          "address": "615 North 48th Street, Phoenix, AZ 85008",
+          "role_types": ["Critical Facilities Manager", "Compliance Analyst"],
+          "commute_analysis": {
+            "distance_miles": 6.8,
+            "drive_time_min": 15,
+            "walk_time_min": null,
+            "commute_score": "8/10 (Against Traffic)",
+            "transit_access": "Good (Light Rail to 44th St)"
+          }
+        }
+      ]
+    },
+    {
+      "name": "High-Tech Manufacturing (Airport Corridor)",
+      "strategy_note": "Located in the industrial zones just east of Downtown. Highly accessible via Washington/Jefferson streets.",
+      "companies": [
+        {
+          "name": "Honeywell Aerospace",
+          "address": "1944 E Sky Harbor Circle N, Phoenix, AZ 85034",
+          "role_types": ["Aerospace Engineer", "Supply Chain Analyst", "QA Specialist"],
+          "commute_analysis": {
+            "distance_miles": 3.5,
+            "drive_time_min": 8,
+            "walk_time_min": null,
+            "commute_score": "9/10 (Very Short Drive)",
+            "transit_access": "Good (Near Sky Train/Light Rail)"
+          }
+        },
+        {
+          "name": "Benchmark Electronics",
+          "address": "3201 E Harbour Dr, Phoenix, AZ 85034",
+          "role_types": ["Manufacturing Engineer", "Test Technician", "Program Manager"],
+          "commute_analysis": {
+            "distance_miles": 5.0,
+            "drive_time_min": 10,
+            "walk_time_min": null,
+            "commute_score": "9/10 (Very Short Drive)",
+            "transit_access": "Fair"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Semiconductor Giants (The Reverse Commute)",
+      "strategy_note": "These are long distance but benefit from 'Reverse Commute' patterns (driving away from the city in the morning).",
+      "companies": [
+        {
+          "name": "TSMC (Taiwan Semiconductor)",
+          "address": "5088 West Innovation Circle, Phoenix, AZ 85083",
+          "role_types": ["Process Engineer", "Equipment Engineer", "Fab Technician"],
+          "commute_analysis": {
+            "distance_miles": 22.0,
+            "drive_time_min": 25,
+            "walk_time_min": null,
+            "commute_score": "7/10 (Fast Highway / Low Traffic AM)",
+            "transit_access": "None"
+          }
+        },
+        {
+          "name": "Intel (Ocotillo Campus)",
+          "address": "4500 S Dobson Rd, Chandler, AZ 85248",
+          "role_types": ["Process Integration", "Yield Engineer", "Facilities Technician"],
+          "commute_analysis": {
+            "distance_miles": 24.0,
+            "drive_time_min": 35,
+            "walk_time_min": null,
+            "commute_score": "6/10 (Moderate Drive / Reverse Traffic)",
+            "transit_access": "Poor (Requires Bus Transfers)"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Downtown Tech (Software & Fintech)",
+      "strategy_note": "Pure software roles located directly in the Downtown/Midtown core.",
+      "companies": [
+        {
+          "name": "WebPT",
+          "address": "111 W Monroe St, Phoenix, AZ 85003",
+          "role_types": ["Software Developer", "Product Manager", "UX Designer"],
+          "commute_analysis": {
+            "distance_miles": 0.3,
+            "drive_time_min": 2,
+            "walk_time_min": 6,
+            "commute_score": "10/10 (Walkable)",
+            "transit_access": "Excellent"
+          }
+        },
+        {
+          "name": "Upgrade, Inc.",
+          "address": "2 N Central Ave, Phoenix, AZ 85004",
+          "role_types": ["Backend Engineer", "Data Scientist", "Fintech Ops"],
+          "commute_analysis": {
+            "distance_miles": 0.1,
+            "drive_time_min": 1,
+            "walk_time_min": 3,
+            "commute_score": "10/10 (Walkable)",
+            "transit_access": "Excellent"
+          }
+        }
+      ]
+    }
+  ]
+}
