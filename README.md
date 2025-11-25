@@ -39,6 +39,7 @@ If you do land a job at the massive suburban giants, living in Downtown is actua
      
 4. Tech & Startups (Downtown Core)
 If you decide to pivot to pure "Software/Tech" to stay strictly in the neighborhood, focus on the Warehouse District (south of the Footprint Center) and the Central Corridor.
+
  * WebPT: The "anchor" tech startup of downtown, headquartered at 111 W Monroe St.
  * Upgrade, Inc.: A major fintech unicorn with a large office at 2 N Central Ave.
  * Galvanize: A tech coworking space in the Warehouse District that often hosts startups looking for talent.
@@ -64,6 +65,8 @@ Instead of trying to scrape 10,000 random pages, start with the known "Anchors" 
 
 A. The "Anchor" Companies
 Based on current industrial data for the Phoenix Metro area (Chandler, Mesa, Goodyear), these are the specific giants you should index in your tool. You can visit their specific "Careers" pages once to get their specific job titles, which is much easier than scraping a search engine.
+
+```
 Top Phoenix Data Centers:
  * Iron Mountain: (Huge presence in Phoenix)
  * PhoenixNAP: (Key local player)
@@ -76,7 +79,8 @@ Top Phoenix Manufacturing:
  * Honeywell: (Aerospace manufacturing)
  * onsemi: (Semiconductor)
  * Microchip Technology: (HQ in Chandler)
-   
+```
+
 B. The "Truth" Data (Salary & Trends)
 For salary comparisons, Indeed’s numbers are often AI-generated estimates. For your tool, use the U.S. Bureau of Labor Statistics (BLS) API. It provides the actual government-reported wage data for "Phoenix-Mesa-Scottsdale" specifically.
  * API Endpoint: https://api.bls.gov/publicAPI/v2/timeseries/data/
@@ -95,8 +99,9 @@ It compares "Observed" salary (from job ads you find) against "Market Rate" (fro
 
 import pandas as pd
 
-# 1. MOCK DATA: In a real app, this comes from your database or CSV import.
-# This represents the "intelligence" you gather on specific companies.
+##### 1. MOCK DATA: In a real app, this comes from your database or CSV import.
+
+###### This represents the "intelligence" you gather on specific companies.
 
 ```
 companies_data = [
@@ -107,7 +112,7 @@ companies_data = [
 ]
 ```
 
-# 2. MARKET BASELINE: Benchmarks for Phoenix-Mesa-Scottsdale (e.g., from BLS data)
+##### 2. MARKET BASELINE: Benchmarks for Phoenix-Mesa-Scottsdale (e.g., from BLS data)
 
 ```
 market_benchmarks = {
@@ -149,7 +154,9 @@ if not high_payers.empty:
 4. Why This Approach is Better for Your Partners
  * Accuracy: You aren't relying on Indeed's potentially outdated scraping. You are building a "Golden Record" of the specific companies that matter.
  * Stability: This tool won't break when Indeed changes a CSS class name.
- * Visual Value: You can plot the Location data on a map (using something like Leaflet.js) to show your partners: "If you work at TSMC, you live in North Phoenix. If you work at Intel, you live in Chandler."
+ * Visual Value: You can plot the Location data on a map (using something like Leaflet.js) to show your partners: _"If you work at TSMC, you live in North Phoenix. If you work at Intel, you live in Chandler."_
+   
+ 
 Would you like me to explain how to get an API Key for the BLS (Bureau of Labor Statistics) so you can pull live wage data for Phoenix into this script?
 
 
