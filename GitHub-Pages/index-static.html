@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phoenix Community Job Hub</title>
+    <style>
+        /* --- CSS STYLES (Clean & Responsive) --- */
+        :root {
+            --primary: #2c3e50;
+            --accent: #27ae60; /* Green for "Go" */
+            --bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --text: #333;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: var(--primary);
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        h1 { margin: 0; font-size: 2rem; }
+        p.subtitle { opacity: 0.9; margin-top: 5px; }
+
+        /* Search Bar */
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto 30px auto;
+        }
+        input#search {
+            width: 100%;
+            padding: 15px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            box-sizing: border-box; /* Fixes padding issues */
+        }
+
+        /* Grid Layout */
+        .job-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Job Cards */
+        .card {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+            border-left: 5px solid var(--accent);
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .company-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .company-name { font-weight: bold; font-size: 1.2rem; color: var(--primary); }
+        .sector-tag { 
+            background: #e9ecef; 
+            padding: 4px 8px; 
+            border-radius: 4px; 
+            font-size: 0.8rem; 
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        .detail-row { margin-bottom: 10px; font-size: 0.95rem; }
+        .label { font-weight: 600; color: #666; }
+        
+        .commute-badge {
+            display: inline-block;
+            background-color: #e8f5e9;
+            color: #1b5e20;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-weight: bold;
+            font-size: 0.85rem;
+            margin-top: 5px;
+        }
+
+        .student-path {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px dashed #ddd;
+            font-size: 0.9rem;
+        }
+        .student-path span { color: #d35400; font-weight: bold; }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .job-grid { grid-template-columns: 1fr; }
+            h1 { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Phoenix Community Job Hub</h1>
+        <p class="subtitle">Market Intelligence for Downtown & Commutable Zones</p>
+    </header>
+
+    <div class="search-container">
+        <input type="text" id="search" placeholder="Search by company, role, or sector..." onkeyup="filterJobs()">
+    </div>
+
+    <div id="job-container" class="job-grid">
+        </div>
+
+    <script>
+        // --- DATA SECTION ---
+        // This is your JSON data, embedded directly so no server/fetch is required.
+        const marketData = {
+          "employers": [
+            {
+              "company": "Digital Realty",
+              "sector": "Data Center",
+              "location_hub": "Downtown Phoenix (Van Buren)",
+              "commute_score": "Walkable (10/10)",
+              "roles": "Network Engineer, Facility Manager",
+              "entry_path": "Data Center Operations Associate (Entry Level)",
+              "notes": "Connectivity hub of the Southwest. Highly stable."
+            },
+            {
+              "company": "NFINIT",
+              "sector": "Data Center",
+              "location_hub": "Downtown Phoenix (Van Buren)",
+              "commute_score": "Walkable (10/10)",
+              "roles": "Systems Admin, NOC Technician",
+              "entry_path": "NOC Support Tier 1",
+              "notes": "Located in the same strategic hub as Digital Realty."
+            },
+            {
+              "company": "WebPT",
+              "sector": "Software / Tech",
+              "location_hub": "Downtown (Warehouse District)",
+              "commute_score": "Walkable (10/10)",
+              "roles": "Software Dev, Product Manager",
+              "entry_path": "QA Tester / Junior Dev Internship",
+              "notes": "The anchor tech startup of Downtown Phoenix."
+            },
+            {
+              "company": "Honeywell Aerospace",
+              "sector": "Manufacturing",
+              "location_hub": "Sky Harbor Airport Zone",
+              "commute_score": "Short Drive / Light Rail (9/10)",
+              "roles": "Aerospace Engineer, Supply Chain",
+              "entry_path": "Aviation Maintenance Technician (AMT)",
+              "notes": "Massive employer. Good for mechanical engineering."
+            },
+            {
+              "company": "PhoenixNAP",
+              "sector": "Data Center",
+              "location_hub": "Sky Harbor Airport Zone",
+              "commute_score": "Short Drive (9/10)",
+              "roles": "Data Center Ops, Hardware Tech",
+              "entry_path": "Hardware Support Technician",
+              "notes": "East of Downtown. Very accessible against traffic."
+            },
+            {
+              "company": "TSMC",
+              "sector": "Semiconductor",
+              "location_hub": "North Phoenix (Deer Valley)",
+              "commute_score": "Reverse Commute (7/10)",
+              "roles": "Process Engineer, Equipment Eng",
+              "entry_path": "Maricopa CC 'Quick Start' Program",
+              "notes": "Global leader. Requires 25 min drive north."
+            },
+            {
+              "company": "City of Phoenix",
+              "sector": "Public Sector / Trades",
+              "location_hub": "Citywide",
+              "commute_score": "Various (10/10)",
+              "roles": "Civil Engineer, Electrician",
+              "entry_path": "Registered Apprenticeship Program",
+              "notes": "Paid training for trades (Electrical, HVAC, Water)."
+            }
+          ]
+        };
+
+        // --- RENDER LOGIC ---
+        const container = document.getElementById('job-container');
+
+        function renderJobs(data) {
+            container.innerHTML = ""; // Clear current list
+            data.forEach(job => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <div class="company-header">
+                        <span class="company-name">${job.company}</span>
+                        <span class="sector-tag">${job.sector}</span>
+                    </div>
+                    <div class="detail-row"><span class="label">Location:</span> ${job.location_hub}</div>
+                    <div class="detail-row"><span class="label">Roles:</span> ${job.roles}</div>
+                    <div class="commute-badge">🚗 Commute: ${job.commute_score}</div>
+                    
+                    <div class="student-path">
+                        <span>🎓 Student/Entry Path:</span><br>
+                        ${job.entry_path}
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // --- FILTER LOGIC ---
+        function filterJobs() {
+            const input = document.getElementById('search').value.toLowerCase();
+            const filtered = marketData.employers.filter(job => {
+                return job.company.toLowerCase().includes(input) || 
+                       job.roles.toLowerCase().includes(input) || 
+                       job.sector.toLowerCase().includes(input);
+            });
+            renderJobs(filtered);
+        }
+
+        // Initial Render
+        renderJobs(marketData.employers);
+
+    </script>
+</body>
+</html>
